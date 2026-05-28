@@ -144,6 +144,25 @@
         </div>
       </section>
 
+      {/* LIVE DEMO */}
+      <section style={{ background: "#fff", padding: "72px 24px" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+          <h2 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(1.5rem, 3vw, 2.2rem)", fontWeight: 800, textAlign: "center", color: "#111", marginBottom: 16 }}>
+            Essayez maintenant
+          </h2>
+          <p style={{ textAlign: "center", color: "#666", fontSize: 16, marginBottom: 40 }}>
+            Interface live — cherchez un véhicule par texte ou par photo, directement ici.
+          </p>
+          <div style={{ borderRadius: 20, overflow: "hidden", boxShadow: "0 8px 48px rgba(234,88,12,0.12)", border: "1px solid #fed7aa" }}>
+            <iframe
+              src="http://187.124.167.18:3055"
+              style={{ width: "100%", height: 700, border: "none", display: "block" }}
+              title="okaiz.com — Marketplace véhicules IA"
+            />
+          </div>
+        </div>
+      </section>
+
       {/* CTA */}
       <section style={{ background: primary, padding: "72px 24px", textAlign: "center" }}>
         <div style={{ maxWidth: 600, margin: "0 auto" }}>
@@ -183,10 +202,13 @@
             <a href="https://wikolabs.com" target="_blank" rel="noopener noreferrer" style={{ color: "#ccc", textDecoration: "none" }}>
               Wikolabs
             </a>
-            {" "}—{" "}
-            <a href="mailto:team@wikolabs.com" style={{ color: "#ccc", textDecoration: "none" }}>
-              team@wikolabs.com
-            </a>
+          </p>
+          <p style={{ color: "#777", marginTop: 8, fontSize: 13, display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}>
+            <a href="mailto:team@wikolabs.com" style={{ color: "#aaa", textDecoration: "none" }}>team@wikolabs.com</a>
+            <span>·</span>
+            <a href="tel:+261386626100" style={{ color: "#aaa", textDecoration: "none" }}>+261 38 66 261 00</a>
+            <span>·</span>
+            <a href="https://calendly.com/wikolabs" target="_blank" rel="noopener noreferrer" style={{ color: "#aaa", textDecoration: "none" }}>Prendre RDV</a>
           </p>
           <p style={{ color: "#555", marginTop: 8, fontSize: 13 }}>© {new Date().getFullYear()} Wikolabs. Tous droits réservés.</p>
         </div>

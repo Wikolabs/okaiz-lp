@@ -6,33 +6,26 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Log in to GHCR
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
-
-      - name: Build and push Docker image
-        run: |
-          docker build -t ghcr.io/wikolabs/okaiz-lp:latest .
-          docker push ghcr.io/wikolabs/okaiz-lp:latest
-
       - name: Deploy to VM via SSH
         env:
           SSH_PRIVATE_KEY: ${{ secrets.WIKOLABS_VM_SSH_KEY }}
           VM_HOST: ${{ secrets.WIKOLABS_VM_HOST }}
           VM_USER: ${{ secrets.WIKOLABS_VM_USER }}
-          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GHCR_USER: ${{ github.actor }}
         run: |
           mkdir -p ~/.ssh
-          echo "$SSH_PRIVATE_KEY" > ~/.ssh/deploy_key
+          printf '%s' "$SSH_PRIVATE_KEY" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
-          ssh-keyscan -H "$VM_HOST" >> ~/.ssh/known_hosts 2>/dev/null
-          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no "$VM_USER@$VM_HOST" "echo '$GHCR_TOKEN' | docker login ghcr.io -u '$GHCR_USER' --password-stdin && docker pull ghcr.io/wikolabs/okaiz-lp:latest && (docker stop okaiz-lp 2>/dev/null; docker rm okaiz-lp 2>/dev/null; true) && docker run -d --name okaiz-lp -p 3052:3000 --restart unless-stopped ghcr.io/wikolabs/okaiz-lp:latest && echo 'Deployed okaiz-lp on port 3052'"
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "$VM_USER@$VM_HOST" bash << 'REMOTE
+set -e
+[ ! -d /opt/okaiz-lp/.git ] && git clone https://github.com/Wikolabs/okaiz-lp.git /opt/okaiz-lp
+cd /opt/okaiz-lp
+git pull origin main
+docker build -t okaiz-lp:local .
+docker stop okaiz-lp 2>/dev/null || true
+docker rm okaiz-lp 2>/dev/null || true
+docker run -d --name okaiz-lp -p 3052:3000 --restart unless-stopped okaiz-lp:local
+echo Deployed okaiz-lp on port 3052
+REMOTE

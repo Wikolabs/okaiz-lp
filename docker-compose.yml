@@ -4,7 +4,8 @@ version: "3.9"
 # 2 services orchestrated:
 #   - okaiz-lp (Next.js frontend on host port 3052)
 #   - okaiz-lp-backend (FastAPI Python, internal only on 8000)
-# Internal network so the frontend can reach the backend by service name.
+# Shared external network wkdemo-net (created once by deploy.yml) avoids
+# Docker default address-pool exhaustion across all 47 LP stacks.
 
 services:
   okaiz-lp-backend:
@@ -15,10 +16,22 @@ services:
       GROQ_API_KEY: ${GROQ_API_KEY:-}
       GEMINI_API_KEY: ${GEMINI_API_KEY:-}
     networks:
+      - wkdemo_net
+
+  okaiz-lp:
+    image: ghcr.io/wikolabs/okaiz-lp:latest
+    container_name: okaiz-lp
+    restart: unless-stopped
+    ports:
+      - "3052:3000"
+    environment:
+      BACKEND_URL: "http://okaiz-lp-backend:8000"
+    depends_on:
+      - okaiz-lp-backend
+    networks:
+      - wkdemo_net
+
+networks:
   wkdemo_net:
     name: wkdemo-net
     external: true
-networks:
-  okaiz-lp-net:
-    name: okaiz-lp-net
-    driver: bridge

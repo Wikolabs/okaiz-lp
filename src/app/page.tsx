@@ -1,17 +1,19 @@
-"use client";
+﻿"use client";
 
 export default function HomePage() {
-  const C = {
-    bg: "#0D1117",
-    card: "#161B22",
-    border: "#30363D",
-    silver: "#C9D1D9",
-    white: "#F0F6FC",
-    gold: "#D4AF37",
-    steel: "#58A6FF",
-    green: "#3FB950",
-    muted: "#8B949E",
-  };
+  const bg = "#04080F";
+  const bg2 = "#070D1B";
+  const card = "rgba(255,255,255,0.04)";
+  const border = "rgba(255,255,255,0.09)";
+  const gold = "#D4AF37";
+  const goldDim = "rgba(212,175,55,0.1)";
+  const goldBorder = "rgba(212,175,55,0.28)";
+  const txt1 = "#F0EDE6";
+  const txt2 = "#8B9DB5";
+  const txt3 = "#3C5068";
+  const steel = "#58A6FF";
+  const steelDim = "rgba(88,166,255,0.1)";
+  const steelBorder = "rgba(88,166,255,0.28)";
 
   const vehicles = [
     { emoji: "🚗", name: "Toyota Corolla", year: 2015, km: "95 000", fuel: "Essence", city: "Antananarivo", price: "45 000 000", category: "Berline" },
@@ -25,10 +27,10 @@ export default function HomePage() {
   ];
 
   const aiFeatures = [
-    { icon: "📊", title: "Estimation juste IA", desc: "Le prix analysé selon des milliers d'annonces similaires sur le marché malgache." },
-    { icon: "🚨", title: "Détection arnaque", desc: "Algorithmes de détection des annonces suspectes, prix anormaux et vendeurs douteux." },
-    { icon: "📷", title: "Recherche par photo", desc: "Prenez une photo d'un véhicule et trouvez des annonces similaires en quelques secondes." },
-    { icon: "🔔", title: "Alerte prix", desc: "Recevez une notification dès qu'un véhicule correspondant à vos critères est publié." },
+    { icon: "📊", title: "Estimation juste IA", desc: "Le prix analysé selon des milliers d'annonces similaires sur le marché malgache. Vendez au bon prix, achetez sans vous faire avoir." },
+    { icon: "🚨", title: "Détection arnaque", desc: "Algorithmes de détection des annonces suspectes, prix anormaux et vendeurs douteux. Votre sécurité avant tout." },
+    { icon: "📷", title: "Recherche par photo", desc: "Prenez une photo d'un véhicule et trouvez des annonces similaires en quelques secondes. La puissance du visuel." },
+    { icon: "🔔", title: "Alerte prix", desc: "Recevez une notification dès qu'un véhicule correspondant à vos critères est publié. Ne ratez plus aucune bonne affaire." },
   ];
 
   const steps = [
@@ -40,96 +42,101 @@ export default function HomePage() {
   const categories = ["Tout", "Voitures", "Motos", "SUV", "Pick-up", "Camionnettes"];
 
   return (
-    <div style={{ background: C.bg, color: C.silver, minHeight: "100vh", fontFamily: "var(--font-body)" }}>
+    <div style={{ minHeight: "100vh", background: bg, color: txt1 }}>
+      <style>{`
+        *, *::before, *::after { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+        @keyframes fadeUp { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
+        @keyframes pulseDot { 0%,100%{ opacity:1; transform:scale(1); } 50%{ opacity:.4; transform:scale(1.6); } }
+        .wk-card { transition: background .3s, border-color .3s, transform .35s cubic-bezier(.34,1.2,.64,1); }
+        .wk-card:hover { background: rgba(255,255,255,0.07) !important; border-color: rgba(212,175,55,0.4) !important; transform: translateY(-6px) !important; }
+        .wk-vcard { transition: border-color .25s, transform .25s; }
+        .wk-vcard:hover { border-color: rgba(212,175,55,0.5) !important; transform: translateY(-4px) !important; }
+        .wk-btn { transition: opacity .2s, transform .2s, box-shadow .2s; }
+        .wk-btn:hover { opacity:.9; transform:translateY(-2px); box-shadow:0 12px 32px rgba(212,175,55,.18); }
+        .wk-wa { transition: opacity .2s, transform .2s; }
+        .wk-wa:hover { opacity:.9; transform:translateY(-2px); }
+        .wk-cat { transition: background .2s, color .2s, border-color .2s; }
+        .wk-cat:hover { border-color: rgba(212,175,55,0.4) !important; }
+        .wk-nav-link { color: #8B9DB5; text-decoration:none; font-size:14px; font-weight:500; transition:color .2s; }
+        .wk-nav-link:hover { color: #F0EDE6; }
+        .wk-annonce { transition: background .2s, color .2s; }
+        .wk-annonce:hover { background: rgba(88,166,255,0.12) !important; color: #F0EDE6 !important; }
+        @media(max-width:640px){ .wk-hide-sm{ display:none!important; } .wk-hero-title{ font-size:2.2rem!important; } }
+      `}</style>
 
       {/* NAVBAR */}
-      <nav style={{ background: C.card, borderBottom: `1px solid ${C.border}`, position: "sticky", top: 0, zIndex: 50 }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", display: "flex", alignItems: "center", justifyContent: "space-between", height: 64 }}>
-          <span style={{ fontSize: 22, fontWeight: 700, color: C.white, fontFamily: "var(--font-display)", letterSpacing: "-0.5px" }}>
-            okaiz<span style={{ color: C.gold }}>.com</span>
-          </span>
-          <div style={{ display: "flex", gap: 32, alignItems: "center" }}>
-            <div style={{ display: "flex", gap: 24 }} className="hidden md:flex">
-              {["Voitures", "Motos", "SUV & 4x4", "Camionnettes"].map((link) => (
-                <a key={link} href="#" style={{ color: C.silver, textDecoration: "none", fontSize: 14, transition: "color 0.2s" }}
-                  onMouseEnter={(e) => (e.currentTarget.style.color = C.white)}
-                  onMouseLeave={(e) => (e.currentTarget.style.color = C.silver)}>
-                  {link}
-                </a>
-              ))}
-            </div>
-            <button style={{
-              background: C.gold, color: "#0D1117", border: "none", borderRadius: 8,
-              padding: "9px 18px", fontWeight: 600, fontSize: 14, cursor: "pointer", whiteSpace: "nowrap"
-            }}>
-              Publier une annonce
-            </button>
+      <nav style={{ position: "sticky", top: 0, zIndex: 100, background: "rgba(4,8,15,0.88)", backdropFilter: "blur(20px)", borderBottom: `1px solid ${border}`, padding: "0 40px", height: 64, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <span style={{ fontSize: 22, fontWeight: 800, letterSpacing: "-0.5px", color: txt1 }}>
+          okaiz<span style={{ color: gold }}>.com</span>
+        </span>
+        <div style={{ display: "flex", gap: 28, alignItems: "center" }}>
+          <div className="wk-hide-sm" style={{ display: "flex", gap: 24 }}>
+            {["Voitures", "Motos", "SUV & 4x4", "Camionnettes"].map((link) => (
+              <a key={link} href="#" className="wk-nav-link">{link}</a>
+            ))}
           </div>
+          <button
+            data-cal-link="wikolabs-team/30min"
+            data-cal-namespace="wk30min"
+            data-cal-config='{"layout":"month_view"}'
+            className="wk-btn"
+            style={{ background: gold, color: "#04080F", border: "none", borderRadius: 8, padding: "9px 18px", fontWeight: 700, fontSize: 14, cursor: "pointer", fontFamily: "inherit" }}
+          >
+            Publier une annonce
+          </button>
         </div>
       </nav>
 
       {/* HERO */}
-      <section style={{ padding: "80px 24px 60px", textAlign: "center", maxWidth: 860, margin: "0 auto" }}>
-        <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: C.card, border: `1px solid ${C.border}`, borderRadius: 20, padding: "6px 16px", marginBottom: 28 }}>
-          <span style={{ color: C.gold, fontSize: 13 }}>✦</span>
-          <span style={{ color: C.muted, fontSize: 13 }}>Propulsé par l'intelligence artificielle</span>
+      <section style={{ padding: "90px 40px 64px", textAlign: "center", maxWidth: 900, margin: "0 auto", position: "relative" }}>
+        <div style={{ position: "absolute", top: -60, left: "50%", transform: "translateX(-50%)", width: 700, height: 600, background: "radial-gradient(ellipse at 50% 30%, rgba(212,175,55,0.08) 0%, transparent 60%)", pointerEvents: "none" }} />
+        <div style={{ display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 28, background: goldDim, border: `1px solid ${goldBorder}`, borderRadius: 100, padding: "6px 18px", animation: "fadeUp .5s ease both" }}>
+          <span style={{ width: 7, height: 7, borderRadius: "50%", background: gold, display: "inline-block", animation: "pulseDot 2s ease-in-out infinite" }} />
+          <span style={{ color: gold, fontSize: 11.5, fontWeight: 700, letterSpacing: "2px", textTransform: "uppercase" }}>Propulsé par l'intelligence artificielle</span>
         </div>
-        <h1 style={{ fontSize: "clamp(28px, 5vw, 52px)", fontWeight: 800, color: C.white, lineHeight: 1.15, marginBottom: 20, fontFamily: "var(--font-display)" }}>
-          Achetez et vendez vos véhicules<br />
-          <span style={{ color: C.gold }}>d'occasion en toute confiance</span>
+        <h1 className="wk-hero-title" style={{ fontSize: "clamp(2.4rem,5.5vw,4.2rem)", fontWeight: 700, lineHeight: 1.1, letterSpacing: "-0.03em", marginBottom: 24, fontFamily: "'Instrument Serif',Georgia,serif", animation: "fadeUp .5s .08s ease both" }}>
+          <span style={{ display: "block", color: txt1 }}>Achetez et vendez vos véhicules</span>
+          <span style={{ display: "block", color: gold, fontStyle: "italic" }}>d'occasion en toute confiance</span>
         </h1>
-        <p style={{ fontSize: 18, color: C.muted, maxWidth: 640, margin: "0 auto 36px", lineHeight: 1.7 }}>
+        <p style={{ fontSize: "1.1rem", color: txt2, maxWidth: 640, margin: "0 auto 40px", lineHeight: 1.72, animation: "fadeUp .5s .16s ease both" }}>
           L'intelligence artificielle analyse chaque annonce, détecte les arnaques et vous trouve le meilleur prix du marché malgache. Voitures, motos, SUV, camionnettes.
         </p>
 
         {/* Search bar */}
-        <div style={{ display: "flex", gap: 0, maxWidth: 580, margin: "0 auto 48px", background: C.card, border: `1px solid ${C.border}`, borderRadius: 12, overflow: "hidden" }}>
+        <div style={{ display: "flex", gap: 0, maxWidth: 580, margin: "0 auto 44px", background: card, border: `1px solid ${border}`, borderRadius: 14, overflow: "hidden", animation: "fadeUp .5s .22s ease both" }}>
           <input
             type="text"
             placeholder="Rechercher : Toyota Corolla, Honda Wave, SUV…"
-            style={{
-              flex: 1, background: "transparent", border: "none", outline: "none",
-              color: C.white, padding: "14px 20px", fontSize: 15
-            }}
+            style={{ flex: 1, background: "transparent", border: "none", outline: "none", color: txt1, padding: "16px 20px", fontSize: 15, fontFamily: "inherit" }}
           />
-          <button style={{
-            background: C.gold, color: "#0D1117", border: "none", padding: "14px 24px",
-            fontWeight: 700, fontSize: 15, cursor: "pointer", whiteSpace: "nowrap"
-          }}>
+          <button className="wk-btn" style={{ background: gold, color: "#04080F", border: "none", padding: "16px 24px", fontWeight: 700, fontSize: 15, cursor: "pointer", whiteSpace: "nowrap", fontFamily: "inherit" }}>
             Rechercher
           </button>
         </div>
 
         {/* Metric badges */}
-        <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 12 }}>
+        <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 10, animation: "fadeUp .5s .3s ease both" }}>
           {[
             { icon: "🚘", label: "1 200+ véhicules" },
             { icon: "🤖", label: "Prix IA vérifié" },
             { icon: "✅", label: "Vendeurs certifiés" },
             { icon: "📦", label: "Livré à Tana" },
           ].map((b) => (
-            <div key={b.label} style={{
-              background: C.card, border: `1px solid ${C.border}`, borderRadius: 8,
-              padding: "8px 16px", display: "flex", alignItems: "center", gap: 8, fontSize: 14
-            }}>
+            <div key={b.label} style={{ background: card, border: `1px solid ${border}`, borderRadius: 10, padding: "9px 18px", display: "flex", alignItems: "center", gap: 8, fontSize: 14 }}>
               <span>{b.icon}</span>
-              <span style={{ color: C.silver }}>{b.label}</span>
+              <span style={{ color: txt2 }}>{b.label}</span>
             </div>
           ))}
         </div>
       </section>
 
       {/* CATEGORY FILTER */}
-      <section style={{ padding: "0 24px 32px", maxWidth: 1200, margin: "0 auto" }}>
+      <section style={{ padding: "0 40px 32px", maxWidth: 1200, margin: "0 auto" }}>
         <div style={{ display: "flex", flexWrap: "wrap", gap: 10, justifyContent: "center" }}>
           {categories.map((cat, i) => (
-            <button key={cat} style={{
-              background: i === 0 ? C.gold : C.card,
-              color: i === 0 ? "#0D1117" : C.silver,
-              border: `1px solid ${i === 0 ? C.gold : C.border}`,
-              borderRadius: 20, padding: "8px 20px", fontSize: 14,
-              fontWeight: i === 0 ? 700 : 500, cursor: "pointer"
-            }}>
+            <button key={cat} className="wk-cat" style={{ background: i === 0 ? gold : card, color: i === 0 ? "#04080F" : txt2, border: `1px solid ${i === 0 ? gold : border}`, borderRadius: 20, padding: "8px 22px", fontSize: 14, fontWeight: i === 0 ? 700 : 500, cursor: "pointer", fontFamily: "inherit" }}>
               {cat}
             </button>
           ))}
@@ -137,85 +144,32 @@ export default function HomePage() {
       </section>
 
       {/* VEHICLE CARDS GRID */}
-      <section style={{ padding: "0 24px 72px", maxWidth: 1200, margin: "0 auto" }}>
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))",
-          gap: 20
-        }}>
+      <section style={{ padding: "0 40px 80px", maxWidth: 1200, margin: "0 auto" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 20 }}>
           {vehicles.map((v) => (
-            <div key={v.name + v.year} style={{
-              background: C.card, border: `1px solid ${C.border}`, borderRadius: 14,
-              padding: 24, display: "flex", flexDirection: "column", gap: 14,
-              transition: "border-color 0.2s, transform 0.2s",
-            }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.borderColor = C.gold;
-                (e.currentTarget as HTMLElement).style.transform = "translateY(-2px)";
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.borderColor = C.border;
-                (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
-              }}
-            >
-              {/* Emoji + category */}
+            <div key={v.name + v.year} className="wk-vcard" style={{ background: card, border: `1px solid ${border}`, borderRadius: 18, padding: 24, display: "flex", flexDirection: "column", gap: 14 }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
                 <span style={{ fontSize: 48, lineHeight: 1 }}>{v.emoji}</span>
-                <span style={{
-                  background: "rgba(212,175,55,0.12)", color: C.gold,
-                  border: `1px solid rgba(212,175,55,0.3)`, borderRadius: 6,
-                  padding: "3px 10px", fontSize: 12, fontWeight: 600
-                }}>
+                <span style={{ background: goldDim, color: gold, border: `1px solid ${goldBorder}`, borderRadius: 8, padding: "3px 10px", fontSize: 12, fontWeight: 600 }}>
                   {v.category}
                 </span>
               </div>
-
-              {/* Name */}
-              <div>
-                <div style={{ fontWeight: 700, fontSize: 17, color: C.white, fontFamily: "var(--font-display)" }}>
-                  {v.name}
-                </div>
-              </div>
-
-              {/* Badges: year / km / fuel */}
+              <div style={{ fontWeight: 700, fontSize: 17, color: txt1 }}>{v.name}</div>
               <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
                 {[v.year.toString(), `${v.km} km`, v.fuel].map((badge) => (
-                  <span key={badge} style={{
-                    background: "#0D1117", border: `1px solid ${C.border}`,
-                    borderRadius: 5, padding: "3px 9px", fontSize: 12, color: C.muted
-                  }}>
+                  <span key={badge} style={{ background: "rgba(255,255,255,0.05)", border: `1px solid ${border}`, borderRadius: 6, padding: "3px 9px", fontSize: 12, color: txt3 }}>
                     {badge}
                   </span>
                 ))}
               </div>
-
-              {/* City */}
-              <div style={{ display: "flex", alignItems: "center", gap: 6, color: C.muted, fontSize: 13 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 6, color: txt3, fontSize: 13 }}>
                 <span>📍</span>
                 <span>{v.city}</span>
               </div>
-
-              {/* Price */}
-              <div style={{ fontSize: 20, fontWeight: 700, color: C.gold, fontFamily: "var(--font-display)" }}>
-                {v.price} <span style={{ fontSize: 14 }}>Ar</span>
+              <div style={{ fontSize: 20, fontWeight: 800, color: gold, letterSpacing: "-0.5px" }}>
+                {v.price} <span style={{ fontSize: 13, fontWeight: 500 }}>Ar</span>
               </div>
-
-              {/* CTA */}
-              <button style={{
-                background: "transparent", border: `1px solid ${C.steel}`,
-                color: C.steel, borderRadius: 8, padding: "9px 0",
-                fontWeight: 600, fontSize: 14, cursor: "pointer", width: "100%",
-                transition: "background 0.2s, color 0.2s"
-              }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLElement).style.background = C.steel;
-                  (e.currentTarget as HTMLElement).style.color = "#0D1117";
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLElement).style.background = "transparent";
-                  (e.currentTarget as HTMLElement).style.color = C.steel;
-                }}
-              >
+              <button className="wk-annonce" style={{ background: "transparent", border: `1px solid ${steelBorder}`, color: steel, borderRadius: 10, padding: "10px 0", fontWeight: 600, fontSize: 14, cursor: "pointer", width: "100%", fontFamily: "inherit" }}>
                 Voir l'annonce →
               </button>
             </div>
@@ -224,29 +178,27 @@ export default function HomePage() {
       </section>
 
       {/* AI AGENT SECTION */}
-      <section style={{ background: C.card, borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}`, padding: "72px 24px" }}>
+      <section id="features" style={{ background: bg2, borderTop: `1px solid ${border}`, borderBottom: `1px solid ${border}`, padding: "80px 40px" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <div style={{ textAlign: "center", marginBottom: 52 }}>
-            <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(88,166,255,0.1)", border: `1px solid rgba(88,166,255,0.3)`, borderRadius: 20, padding: "6px 16px", marginBottom: 20 }}>
-              <span style={{ color: C.steel, fontSize: 13 }}>🤖 Agent IA</span>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: steelDim, border: `1px solid ${steelBorder}`, borderRadius: 100, padding: "6px 18px", marginBottom: 20 }}>
+              <span style={{ width: 7, height: 7, borderRadius: "50%", background: steel, display: "inline-block", animation: "pulseDot 2s ease-in-out infinite" }} />
+              <span style={{ color: steel, fontSize: 11.5, fontWeight: 700, letterSpacing: "2px", textTransform: "uppercase" }}>Agent IA</span>
             </div>
-            <h2 style={{ fontSize: "clamp(24px, 4vw, 40px)", fontWeight: 800, color: C.white, fontFamily: "var(--font-display)", marginBottom: 16 }}>
-              Notre agent IA cherche pour vous
+            <h2 style={{ fontSize: "clamp(1.8rem,3.5vw,2.8rem)", fontWeight: 700, color: txt1, fontFamily: "'Instrument Serif',Georgia,serif", marginBottom: 16, letterSpacing: "-0.02em" }}>
+              Notre agent IA <em style={{ fontStyle: "italic", color: gold }}>cherche pour vous</em>
             </h2>
-            <p style={{ color: C.muted, fontSize: 17, maxWidth: 620, margin: "0 auto", lineHeight: 1.7 }}>
+            <p style={{ color: txt2, fontSize: "1rem", maxWidth: 620, margin: "0 auto", lineHeight: 1.7 }}>
               Notre agent IA surveille en continu les marketplaces malgaches, détecte les annonces surévaluées, signale les vendeurs suspects et vous suggère des alternatives similaires dans votre budget.
             </p>
           </div>
-
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: 20 }}>
-            {aiFeatures.map((f) => (
-              <div key={f.title} style={{
-                background: C.bg, border: `1px solid ${C.border}`, borderRadius: 12,
-                padding: 24, display: "flex", flexDirection: "column", gap: 12
-              }}>
-                <span style={{ fontSize: 32 }}>{f.icon}</span>
-                <div style={{ fontWeight: 700, fontSize: 16, color: C.white, fontFamily: "var(--font-display)" }}>{f.title}</div>
-                <div style={{ color: C.muted, fontSize: 14, lineHeight: 1.6 }}>{f.desc}</div>
+            {aiFeatures.map((f, i) => (
+              <div key={f.title} className="wk-card" style={{ background: card, border: `1px solid ${border}`, borderRadius: 20, padding: "28px 24px", position: "relative", overflow: "hidden" }}>
+                <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2, background: `linear-gradient(90deg,transparent,${i % 2 === 0 ? gold : steel},transparent)`, opacity: 0.6 }} />
+                <div style={{ fontSize: "2rem", marginBottom: 16 }}>{f.icon}</div>
+                <h3 style={{ fontWeight: 700, fontSize: "1.05rem", color: txt1, marginBottom: 10 }}>{f.title}</h3>
+                <p style={{ color: txt2, fontSize: "0.88rem", lineHeight: 1.7, margin: 0 }}>{f.desc}</p>
               </div>
             ))}
           </div>
@@ -254,98 +206,76 @@ export default function HomePage() {
       </section>
 
       {/* HOW IT WORKS */}
-      <section style={{ padding: "72px 24px", maxWidth: 1100, margin: "0 auto" }}>
-        <div style={{ textAlign: "center", marginBottom: 52 }}>
-          <h2 style={{ fontSize: "clamp(24px, 4vw, 40px)", fontWeight: 800, color: C.white, fontFamily: "var(--font-display)", marginBottom: 14 }}>
-            Comment ça marche
-          </h2>
-          <p style={{ color: C.muted, fontSize: 16 }}>Trois étapes pour acheter ou vendre sans risque</p>
-        </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 24 }}>
-          {steps.map((s) => (
-            <div key={s.num} style={{
-              background: C.card, border: `1px solid ${C.border}`, borderRadius: 14,
-              padding: 32, position: "relative", overflow: "hidden"
-            }}>
-              <div style={{
-                fontSize: 64, fontWeight: 900, color: "rgba(212,175,55,0.08)",
-                position: "absolute", top: 12, right: 20, fontFamily: "var(--font-display)", lineHeight: 1
-              }}>
-                {s.num}
+      <section id="process" style={{ padding: "80px 40px" }}>
+        <div style={{ maxWidth: 860, margin: "0 auto" }}>
+          <div style={{ textAlign: "center", marginBottom: 48 }}>
+            <p style={{ fontSize: "0.68rem", color: gold, letterSpacing: "3px", textTransform: "uppercase", fontWeight: 700, marginBottom: 14 }}>Comment ça marche</p>
+            <h2 style={{ fontSize: "clamp(1.8rem,3.5vw,2.8rem)", fontWeight: 700, color: txt1, fontFamily: "'Instrument Serif',Georgia,serif", letterSpacing: "-0.02em" }}>
+              Trois étapes pour acheter <em style={{ fontStyle: "italic", color: gold }}>sans risque</em>
+            </h2>
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+            {steps.map((s, i) => (
+              <div key={s.num} style={{ display: "flex", alignItems: "flex-start", gap: 22, background: card, border: `1px solid ${border}`, borderRadius: 18, padding: "22px 26px" }}>
+                <div style={{ flexShrink: 0, width: 48, height: 48, background: i === 0 ? goldDim : steelDim, border: `1px solid ${i === 0 ? goldBorder : steelBorder}`, borderRadius: 14, display: "flex", alignItems: "center", justifyContent: "center", color: i === 0 ? gold : steel, fontWeight: 800, fontSize: 15 }}>
+                  {s.num}
+                </div>
+                <div>
+                  <h3 style={{ fontSize: "1rem", fontWeight: 700, color: txt1, marginBottom: 6, lineHeight: 1.3 }}>{s.title}</h3>
+                  <p style={{ fontSize: "0.87rem", color: txt2, lineHeight: 1.7, margin: 0 }}>{s.desc}</p>
+                </div>
               </div>
-              <div style={{
-                width: 40, height: 40, background: "rgba(212,175,55,0.12)",
-                border: `1px solid rgba(212,175,55,0.3)`, borderRadius: 10,
-                display: "flex", alignItems: "center", justifyContent: "center",
-                color: C.gold, fontWeight: 800, fontSize: 16, marginBottom: 16, fontFamily: "var(--font-display)"
-              }}>
-                {s.num}
-              </div>
-              <div style={{ fontWeight: 700, fontSize: 18, color: C.white, fontFamily: "var(--font-display)", marginBottom: 10 }}>
-                {s.title}
-              </div>
-              <div style={{ color: C.muted, fontSize: 14, lineHeight: 1.7 }}>{s.desc}</div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
 
       {/* CTA SECTION */}
-      <section style={{ padding: "0 24px 72px", maxWidth: 860, margin: "0 auto" }}>
-        <div style={{
-          background: C.card, border: `1px solid ${C.border}`, borderRadius: 20,
-          padding: "56px 40px", textAlign: "center",
-          backgroundImage: "radial-gradient(ellipse at 50% 0%, rgba(212,175,55,0.06) 0%, transparent 60%)"
-        }}>
-          <h2 style={{ fontSize: "clamp(24px, 4vw, 38px)", fontWeight: 800, color: C.white, fontFamily: "var(--font-display)", marginBottom: 14 }}>
+      <section id="cta" style={{ padding: "0 40px 100px", maxWidth: 860, margin: "0 auto" }}>
+        <div style={{ background: card, border: `1px solid ${goldBorder}`, borderRadius: 24, padding: "64px 48px", textAlign: "center", backgroundImage: `radial-gradient(ellipse at 50% 0%, ${goldDim} 0%, transparent 65%)` }}>
+          <p style={{ fontSize: "0.68rem", color: gold, letterSpacing: "3px", textTransform: "uppercase", fontWeight: 700, marginBottom: 16 }}>Demarrer</p>
+          <h2 style={{ fontSize: "clamp(1.8rem,3.5vw,2.8rem)", fontWeight: 700, color: txt1, marginBottom: 14, letterSpacing: "-0.02em", fontFamily: "'Instrument Serif',Georgia,serif" }}>
             Prêt à vendre ou acheter ?
           </h2>
-          <p style={{ color: C.muted, fontSize: 16, marginBottom: 36, lineHeight: 1.7 }}>
+          <p style={{ color: txt2, fontSize: "1rem", marginBottom: 36, lineHeight: 1.7 }}>
             Discutez avec notre équipe pour publier vos annonces, activer l'agent IA ou accéder aux fonctionnalités premium d'okaiz.com.
           </p>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 14, justifyContent: "center" }}>
-            {/* Cal.com button */}
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 12, justifyContent: "center" }}>
             <button
               data-cal-link="wikolabs-team/30min"
               data-cal-namespace="wk30min"
               data-cal-config='{"layout":"month_view"}'
-              style={{
-                background: C.gold, color: "#0D1117", border: "none",
-                borderRadius: 10, padding: "14px 28px", fontWeight: 700,
-                fontSize: 15, cursor: "pointer", display: "flex", alignItems: "center", gap: 8
-              }}
+              className="wk-btn"
+              style={{ background: gold, color: "#04080F", border: "none", borderRadius: 10, padding: "14px 28px", fontWeight: 700, fontSize: 15, cursor: "pointer", display: "flex", alignItems: "center", gap: 8, fontFamily: "inherit" }}
             >
-              <span>📅</span> Planifier un appel
+              📅 Planifier un appel
             </button>
-            {/* WhatsApp button */}
             <a
               href="https://wa.me/261386626100?text=Bonjour%2C%20je%20souhaite%20discuter%20de%20okaiz.com%20avec%20Wikolabs."
               target="_blank"
               rel="noopener noreferrer"
-              style={{
-                background: "#25d366", color: "#fff", border: "none",
-                borderRadius: 10, padding: "14px 28px", fontWeight: 700,
-                fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8
-              }}
+              className="wk-wa"
+              style={{ background: "#25d366", color: "#fff", borderRadius: 10, padding: "14px 28px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }}
             >
-              <span>💬</span> WhatsApp
+              💬 WhatsApp
             </a>
           </div>
         </div>
       </section>
 
       {/* FOOTER */}
-      <footer style={{ borderTop: `1px solid ${C.border}`, padding: "32px 24px", textAlign: "center" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
-          <span style={{ fontSize: 16, fontWeight: 700, color: C.white, fontFamily: "var(--font-display)" }}>
-            okaiz<span style={{ color: C.gold }}>.com</span>
-          </span>
-          <span style={{ color: C.muted, fontSize: 14 }}>
-            © 2026 okaiz.com — Marketplace IA de véhicules d'occasion à Madagascar
-          </span>
-          <a href="mailto:team@wikolabs.com" style={{ color: C.muted, fontSize: 14, textDecoration: "none" }}>
-            team@wikolabs.com
-          </a>
+      <footer style={{ borderTop: `1px solid ${border}`, padding: "32px 40px" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto", display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: 16 }}>
+          <div>
+            <span style={{ fontWeight: 800, fontSize: 17, color: txt1 }}>okaiz<span style={{ color: gold }}>.com</span></span>
+            <span style={{ display: "block", fontSize: 12, color: txt3, marginTop: 3 }}>Marketplace IA de véhicules d'occasion à Madagascar</span>
+          </div>
+          <p style={{ fontSize: 13, color: txt3 }}>© 2026 okaiz.com — Un produit <a href="https://wikolabs.com" style={{ color: txt2, textDecoration: "none" }}>Wikolabs</a></p>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 16, fontSize: 13, alignItems: "center" }}>
+            <a href="mailto:team@wikolabs.com" style={{ color: txt3, textDecoration: "none" }}>team@wikolabs.com</a>
+            <span style={{ color: txt3 }}>·</span>
+            <button data-cal-link="wikolabs-team/30min" data-cal-namespace="wk30min" data-cal-config='{"layout":"month_view"}' style={{ background: "none", border: "none", color: txt3, fontSize: 13, cursor: "pointer", fontFamily: "inherit", padding: 0 }}>Prendre RDV</button>
+          </div>
         </div>
       </footer>
     </div>

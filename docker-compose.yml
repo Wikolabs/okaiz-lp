@@ -15,21 +15,9 @@ services:
       GROQ_API_KEY: ${GROQ_API_KEY:-}
       GEMINI_API_KEY: ${GEMINI_API_KEY:-}
     networks:
-      - okaiz-lp-net
-
-  okaiz-lp:
-    image: ghcr.io/wikolabs/okaiz-lp:latest
-    container_name: okaiz-lp
-    restart: unless-stopped
-    ports:
-      - "3052:3000"
-    environment:
-      BACKEND_URL: "http://okaiz-lp-backend:8000"
-    depends_on:
-      - okaiz-lp-backend
-    networks:
-      - okaiz-lp-net
-
+  wkdemo_net:
+    name: wkdemo-net
+    external: true
 networks:
   okaiz-lp-net:
     name: okaiz-lp-net

@@ -1,0 +1,36 @@
+version: "3.9"
+
+# okaiz-lp demo - production-ready POC.
+# 2 services orchestrated:
+#   - okaiz-lp (Next.js frontend on host port 3052)
+#   - okaiz-lp-backend (FastAPI Python, internal only on 8000)
+# Internal network so the frontend can reach the backend by service name.
+
+services:
+  okaiz-lp-backend:
+    image: ghcr.io/wikolabs/okaiz-lp-backend:latest
+    container_name: okaiz-lp-backend
+    restart: unless-stopped
+    environment:
+      GROQ_API_KEY: ${GROQ_API_KEY:-}
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+    networks:
+      - okaiz-lp-net
+
+  okaiz-lp:
+    image: ghcr.io/wikolabs/okaiz-lp:latest
+    container_name: okaiz-lp
+    restart: unless-stopped
+    ports:
+      - "3052:3000"
+    environment:
+      BACKEND_URL: "http://okaiz-lp-backend:8000"
+    depends_on:
+      - okaiz-lp-backend
+    networks:
+      - okaiz-lp-net
+
+networks:
+  okaiz-lp-net:
+    name: okaiz-lp-net
+    driver: bridge
